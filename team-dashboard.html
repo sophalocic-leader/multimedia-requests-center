@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia Request Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container" id="app-content">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-photo-film"></i></div>
+                <h2>MediaTrack</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li class="nav-item active" data-view="dashboard">
+                    <i class="fa-solid fa-chart-pie"></i> Team Dashboard
+                </li>
+            </ul>
+
+            <div class="user-profile">
+                <div class="avatar" id="user-avatar-placeholder"><i class="fa-solid fa-user"></i></div>
+                <div class="user-info">
+                    <span class="name" id="user-name">Local User</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <h1 id="page-title">Dashboard</h1>
+                
+                <div class="header-controls">
+                    <div class="theme-switcher">
+                        <button class="theme-btn" data-theme="light" title="Light Mode"><i class="fa-solid fa-sun"></i></button>
+                        <button class="theme-btn" data-theme="dark" title="Dark Mode"><i class="fa-solid fa-moon"></i></button>
+                    </div>
+                    <div class="date-display" id="current-date">--</div>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view-section active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon total"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="metric-info">
+                            <h3>Total Requests</h3>
+                            <p id="metric-total">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon pending"><i class="fa-solid fa-clock"></i></div>
+                        <div class="metric-info">
+                            <h3>Pending</h3>
+                            <p id="metric-pending">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon completed"><i class="fa-solid fa-check-circle"></i></div>
+                        <div class="metric-info">
+                            <h3>Completed</h3>
+                            <p id="metric-completed">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-requests-section">
+                    <div class="section-header">
+                        <h2>Recent Requests</h2>
+                        <div class="filter-controls">
+                            <select id="status-filter">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Request</th>
+                                    <th>Type</th>
+                                    <th>Priority</th>
+                                    <th>Date Submitted</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-list">
+                                <!-- Requests will be populated here via JavaScript -->
+                            </tbody>
+                        </table>
+                        
+                        <div id="empty-state" class="empty-state hidden">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <p>No requests found. Create a new request to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toast-message">Request saved successfully!</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
