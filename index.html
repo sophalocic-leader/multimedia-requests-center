@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia Request Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+<body>
+    <div class="app-container" id="app-content">
+        <!-- Main Content Area -->
+        <main class="main-content form-only">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="logo" style="margin-bottom: 0;">
+                    <div class="logo-icon"><i class="fa-solid fa-photo-film"></i></div>
+                    <h2 style="font-size: 1.4rem; font-weight: 700; background: linear-gradient(135deg, var(--text-primary), var(--text-secondary)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Media Request</h2>
+                </div>
+                
+                <div class="header-controls">
+                    <div class="theme-switcher">
+                        <button class="theme-btn" data-theme="light" title="Light Mode"><i class="fa-solid fa-sun"></i></button>
+                        <button class="theme-btn" data-theme="system" title="System Mode"><i class="fa-solid fa-desktop"></i></button>
+                        <button class="theme-btn" data-theme="dark" title="Dark Mode"><i class="fa-solid fa-moon"></i></button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- New Request View -->
+            <section id="new-request-view" class="view-section active">
+                <div class="form-container">
+                    <form id="request-form">
+                        <div class="form-group">
+                            <label for="req-title">Request Title <span class="required">*</span></label>
+                            <input type="text" id="req-title" placeholder="e.g., Q3 Marketing Campaign Video">
+                            <div class="helper-text">Provide a clear, brief name for the task.</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="req-type">Media Type <span class="required">*</span></label>
+                                <select id="req-type">
+                                    <option value="" disabled selected>Select type...</option>
+                                    <option value="Video">Video Production</option>
+                                    <option value="Graphic">Graphic Design</option>
+                                    <option value="Photo">Photography</option>
+                                    <option value="Animation">Animation/Motion</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="req-priority">Priority Level <span class="required">*</span></label>
+                                <select id="req-priority">
+                                    <option value="Low">Low - Whenever possible</option>
+                                    <option value="Medium" selected>Medium - Normal flow</option>
+                                    <option value="High">High - Urgent needed soon</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="req-start-date">Preferred Start Date</label>
+                                <input type="date" id="req-start-date">
+                            </div>
+                            <div class="form-group">
+                                <label for="req-deadline">Requested Deadline</label>
+                                <input type="date" id="req-deadline">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="req-link">Inspiration/Reference Link</label>
+                                <input type="url" id="req-link" placeholder="https://example.com/reference">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="req-file">Attach Reference File</label>
+                                <input type="file" id="req-file" class="file-input">
+                            </div>
+                        </div>
+
+                        <div id="dynamic-video" class="dynamic-section" style="display: none;">
+                            <h3 class="section-title">Video Production Intake</h3>
+                            
+                            <details class="intake-accordion" open>
+                                <summary>1. Project Overview & Goals</summary>
+                                <div class="accordion-content">
+                                    <div class="form-group">
+                                        <label for="req-video-audience">Target Audience Profile</label>
+                                        <input type="text" id="req-video-audience" placeholder="e.g., Millennials interested in real estate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-video-metric">Success Metric</label>
+                                        <input type="text" id="req-video-metric" placeholder="What does success look like? (e.g., 10k views, form fills)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-video-message">Key Message / Call to Action</label>
+                                        <input type="text" id="req-video-message" placeholder="e.g., 'Visit our website today' or 'Sign up for the event'">
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>2. Technical Specifications</summary>
+                                <div class="accordion-content">
+                                    <div class="form-group">
+                                        <label>Target Platform(s)</label>
+                                        <div class="checkbox-grid" id="req-video-platform">
+                                            <label class="checkbox-label"><input type="checkbox" value="TikTok/Reels"> TikTok/Reels</label>
+                                            <label class="checkbox-label"><input type="checkbox" value="YouTube"> YouTube</label>
+                                            <label class="checkbox-label"><input type="checkbox" value="Internal TV"> Internal TV/Screens</label>
+                                            <label class="checkbox-label"><input type="checkbox" value="Facebook"> Facebook</label>
+                                            <label class="checkbox-label"><input type="checkbox" value="LinkedIn"> LinkedIn</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-video-duration">Estimated Duration</label>
+                                            <select id="req-video-duration">
+                                                <option value="" disabled selected>Select duration...</option>
+                                                <option value="< 30 seconds">< 30 seconds</option>
+                                                <option value="30 - 60 seconds">30 - 60 seconds</option>
+                                                <option value="1 - 3 minutes">1 - 3 minutes</option>
+                                                <option value="3+ minutes">3+ minutes</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-video-format">Delivery Format</label>
+                                            <select id="req-video-format">
+                                                <option value="" disabled selected>Select ratio...</option>
+                                                <option value="16:9 (Landscape HD/4K)">16:9 (Landscape HD/4K)</option>
+                                                <option value="9:16 (Vertical Mobile)">9:16 (Vertical Mobile)</option>
+                                                <option value="1:1 (Square Social)">1:1 (Square Social)</option>
+                                                <option value="4:5 (Vertical Feed)">4:5 (Vertical Feed)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-video-subs">Subtitles Required?</label>
+                                        <select id="req-video-subs">
+                                            <option value="No">No Subtitles Needed</option>
+                                            <option value="Yes - English">Yes - English</option>
+                                            <option value="Yes - Local Language">Yes - Local Language</option>
+                                            <option value="Yes - Bilingual">Yes - Bilingual (Both)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>3. Creative & Production</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-video-style">Video Style / Tone</label>
+                                            <select id="req-video-style">
+                                                <option value="" disabled selected>Select style...</option>
+                                                <option value="Corporate/Professional">Corporate/Professional</option>
+                                                <option value="Engaging/Trendy">Engaging/Trendy</option>
+                                                <option value="Documentary/Interview">Documentary/Interview</option>
+                                                <option value="Event Recap">Event Recap</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-video-location-type">Shoot Location Type</label>
+                                            <select id="req-video-location-type">
+                                                <option value="" disabled selected>Select location...</option>
+                                                <option value="Studio">Studio</option>
+                                                <option value="In-Office">In-Office</option>
+                                                <option value="Outdoor/On-Location">Outdoor/On-Location</option>
+                                                <option value="Stock Footage Only">Stock Footage Only</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-video-talent">Talent / Interviewees Needed</label>
+                                        <input type="text" id="req-video-talent" placeholder="e.g., CEO, Local Staff, External Actors (Leave blank if none)">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-video-audio">Audio / Music Vibe</label>
+                                            <select id="req-video-audio">
+                                                <option value="" disabled selected>Select vibe...</option>
+                                                <option value="Upbeat/Energetic">Upbeat/Energetic</option>
+                                                <option value="Corporate/Inspiring">Corporate/Inspiring</option>
+                                                <option value="Dramatic/Cinematic">Dramatic/Cinematic</option>
+                                                <option value="Ambient/Lo-Fi">Ambient/Lo-Fi</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-video-script">Script / Storyboard Provided?</label>
+                                            <select id="req-video-script">
+                                                <option value="No - Need Team to write">No - Need Team to write</option>
+                                                <option value="Yes - Final Draft attached">Yes - Final Draft attached</option>
+                                                <option value="Rough idea only">Rough idea only</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-video-refs">Reference Video Links</label>
+                                        <input type="text" id="req-video-refs" placeholder="Paste YouTube/Vimeo links of styles you like">
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                        
+                        <div id="dynamic-graphic" class="dynamic-section" style="display: none;">
+                            <h3 class="section-title">Graphic Design Intake</h3>
+
+                            <details class="intake-accordion" open>
+                                <summary>1. Project Overview</summary>
+                                <div class="accordion-content">
+                                    <div class="form-group">
+                                        <label for="req-graphic-audience">Target Audience Profile</label>
+                                        <input type="text" id="req-graphic-audience" placeholder="Who will see this design?">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-graphic-emotion">Primary Emotion / Vibe</label>
+                                            <select id="req-graphic-emotion">
+                                                <option value="" disabled selected>Select vibe...</option>
+                                                <option value="Trustworthy/Corporate">Trustworthy/Corporate</option>
+                                                <option value="Exciting/Urgent (Promo)">Exciting/Urgent (Promo)</option>
+                                                <option value="Elegant/Premium">Elegant/Premium</option>
+                                                <option value="Playful/Youthful">Playful/Youthful</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-graphic-destination">Primary Destination</label>
+                                            <select id="req-graphic-destination">
+                                                <option value="" disabled selected>Select output...</option>
+                                                <option value="Digital/Screen (RGB)">Digital/Screen (RGB)</option>
+                                                <option value="Physical Print (CMYK)">Physical Print (CMYK)</option>
+                                                <option value="Both">Both Digital and Print</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>2. Technical Specs</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-graphic-purpose">Design Purpose</label>
+                                            <select id="req-graphic-purpose">
+                                                <option value="" disabled selected>Select purpose...</option>
+                                                <option value="Social Media Post">Social Media Post</option>
+                                                <option value="Print Brochure/Flyer">Print Brochure/Flyer</option>
+                                                <option value="Large Format (Billboard/Backdrop)">Large Format (Billboard/Backdrop)</option>
+                                                <option value="Web/Digital Banner">Web/Digital Banner</option>
+                                                <option value="Presentation Deck">Presentation Deck</option>
+                                                <option value="Merchandise/Swag">Merchandise/Swag</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-graphic-format">Final File Format Needed</label>
+                                            <select id="req-graphic-format">
+                                                <option value="JPG/PNG (Standard Web)">JPG/PNG (Standard Web)</option>
+                                                <option value="PDF (Ready for Print)">PDF (Ready for Print)</option>
+                                                <option value="Open Source (PSD/AI)">Open Source (PSD/AI)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-graphic-size">Specific Dimensions</label>
+                                        <input type="text" id="req-graphic-size" placeholder="e.g., 1080x1080px or A4 or 2m x 3m">
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>3. Creative Direction</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-graphic-brand">Brand Guidelines</label>
+                                            <select id="req-graphic-brand">
+                                                <option value="Strictly follow Brand Book">Strictly follow Brand Book</option>
+                                                <option value="Flexible / Creative liberty allowed">Flexible / Creative liberty allowed</option>
+                                                <option value="New concept completely">New concept completely</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-graphic-colors">Color Profile Preferences</label>
+                                            <input type="text" id="req-graphic-colors" placeholder="e.g., Primary brand colors only, or festive colors">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-graphic-typography">Typography Preferences</label>
+                                            <input type="text" id="req-graphic-typography" placeholder="e.g., Bold sans-serif, Elegant serif">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-graphic-assets">Required Attached Assets</label>
+                                            <input type="text" id="req-graphic-assets" placeholder="e.g., Use the provided vector logo and sponsor logos">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-graphic-copy">Exact Copy / Text Content</label>
+                                        <textarea id="req-graphic-copy" rows="3" placeholder="Paste the EXACT words that MUST appear on the graphic here. Check for typos!"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-graphic-refs">Visual Style References</label>
+                                        <input type="text" id="req-graphic-refs" placeholder="Links to Pinterest or other graphics you like">
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div id="dynamic-photo" class="dynamic-section" style="display: none;">
+                            <h3 class="section-title">Photography Intake</h3>
+
+                            <details class="intake-accordion" open>
+                                <summary>1. Shoot Details</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-photo-type">Shoot Type</label>
+                                            <select id="req-photo-type">
+                                                <option value="" disabled selected>Select shoot type...</option>
+                                                <option value="Event Coverage">Event Coverage</option>
+                                                <option value="Corporate Headshots">Corporate Headshots</option>
+                                                <option value="Product/Food Shot">Product/Food Shot</option>
+                                                <option value="Architecture/Property">Architecture/Property</option>
+                                                <option value="Lifestyle/Brand">Lifestyle/Brand</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-photo-location">Exact Location(s)</label>
+                                            <input type="text" id="req-photo-location" placeholder="Exact address, building, or room number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-photo-datetime">Preferred Date & Time Schedule</label>
+                                        <input type="text" id="req-photo-datetime" placeholder="e.g., Oct 12th: Setup 1PM, Shoot 2 PM - 5 PM">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-photo-vips">Key Subjects / VIPs</label>
+                                        <input type="text" id="req-photo-vips" placeholder="Names of people who MUST be photographed">
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>2. Technical Specs</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-photo-usage">Intended Usage</label>
+                                            <select id="req-photo-usage">
+                                                <option value="Social Media Content">Social Media Content</option>
+                                                <option value="High-Res Print/Billboard">High-Res Print/Billboard</option>
+                                                <option value="Internal Archives">Internal Archives</option>
+                                                <option value="Website Hero Images">Website Hero Images</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-photo-quantity">Estimated Final Edits Needed</label>
+                                            <select id="req-photo-quantity">
+                                                <option value="1-5 Hero Shots">1-5 Hero Shots</option>
+                                                <option value="10-20 Selected Images">10-20 Selected Images</option>
+                                                <option value="Full Event Gallery (50+)">Full Event Gallery (50+)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>3. Creative Direction</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-photo-lighting">Preferred Lighting Style</label>
+                                            <select id="req-photo-lighting">
+                                                <option value="Natural Light (Outdoor/Window)">Natural Light (Outdoor/Window)</option>
+                                                <option value="Studio Strobe (Clean/Sharp)">Studio Strobe (Clean/Sharp)</option>
+                                                <option value="Cinematic/Moody">Cinematic/Moody</option>
+                                                <option value="Bright and Airy">Bright and Airy</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-photo-wardrobe">Props / Wardrobe Responsibility</label>
+                                            <select id="req-photo-wardrobe">
+                                                <option value="Provided by Requester">Provided by Requester</option>
+                                                <option value="Need Photo Team to Source">Need Photo Team to Source</option>
+                                                <option value="Not Applicable">Not Applicable</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-photo-shotlist">Critical Shot List</label>
+                                        <textarea id="req-photo-shotlist" rows="3" placeholder="List specific moments or compositions (e.g., 1. CEO ribbon cutting. 2. Wide shot of empty stage. 3. Close up of product demo)"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-photo-moodboard">Mood Board / Reference Links</label>
+                                        <input type="text" id="req-photo-moodboard" placeholder="Link to Pinterest board or competitor photos">
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+                        
+                        <div id="dynamic-animation" class="dynamic-section" style="display: none;">
+                            <h3 class="section-title">Animation / Motion Intake</h3>
+
+                            <details class="intake-accordion" open>
+                                <summary>1. Project Overview & Narrative</summary>
+                                <div class="accordion-content">
+                                    <div class="form-group">
+                                        <label for="req-anim-audience">Target Audience Profile</label>
+                                        <input type="text" id="req-anim-audience" placeholder="Who will watch this?">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-anim-message">Key Message / Takeaway</label>
+                                        <input type="text" id="req-anim-message" placeholder="What should the viewer understand by the end?">
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>2. Technical Specs</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-anim-platform">Target Platform</label>
+                                            <select id="req-anim-platform">
+                                                <option value="" disabled selected>Select layout...</option>
+                                                <option value="16:9 Screen (YT/Presentation)">16:9 Screen (YT/Presentation)</option>
+                                                <option value="9:16 Social (Reels/TikTok)">9:16 Social (Reels/TikTok)</option>
+                                                <option value="Custom Size">Custom Size</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-anim-duration">Estimated Duration</label>
+                                            <select id="req-anim-duration">
+                                                <option value="< 15 seconds (Bumper/Intro)">< 15 seconds (Bumper/Intro)</option>
+                                                <option value="15 - 30 seconds (Promo)">15 - 30 seconds (Promo)</option>
+                                                <option value="1 - 2 minutes (Explainer)">1 - 2 minutes (Explainer)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-anim-format">Final File Format Needed</label>
+                                        <select id="req-anim-format">
+                                            <option value="MP4 (Standard)">MP4 (Standard)</option>
+                                            <option value="MOV with Transparent Alpha">MOV with Transparent Alpha</option>
+                                            <option value="GIF (Looping)">GIF (Looping)</option>
+                                            <option value="Lottie (Web JSON)">Lottie (Web JSON)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <details class="intake-accordion">
+                                <summary>3. Creative Direction</summary>
+                                <div class="accordion-content">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-anim-style">Animation Style</label>
+                                            <select id="req-anim-style">
+                                                <option value="" disabled selected>Select style...</option>
+                                                <option value="2D Motion Graphics (Flat/Vector)">2D Motion Graphics (Flat/Vector)</option>
+                                                <option value="Kinetic Typography (Text-focused)">Kinetic Typography (Text-focused)</option>
+                                                <option value="3D Animation">3D Animation</option>
+                                                <option value="Character Rigging/Acting">Character Rigging/Acting</option>
+                                                <option value="UI/App Mockup Motion">UI/App Mockup Motion</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-anim-pacing">Pacing / Energy</label>
+                                            <select id="req-anim-pacing">
+                                                <option value="Fast and Dynamic">Fast and Dynamic</option>
+                                                <option value="Slow and Explanatory">Slow and Explanatory</option>
+                                                <option value="Smooth and Elegant">Smooth and Elegant</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="req-anim-vo">Voiceover Required?</label>
+                                            <select id="req-anim-vo">
+                                                <option value="No Voiceover">No Voiceover</option>
+                                                <option value="Yes - Voice Actor needed">Yes - Voice Actor needed</option>
+                                                <option value="Yes - AI Voice acceptable">Yes - AI Voice acceptable</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="req-anim-music">Background Music Vibe</label>
+                                            <select id="req-anim-music">
+                                                <option value="Upbeat/Driving">Upbeat/Driving</option>
+                                                <option value="Corporate/Tech">Corporate/Tech</option>
+                                                <option value="Whimsical/Playful">Whimsical/Playful</option>
+                                                <option value="Dramatic/Epic">Dramatic/Epic</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="req-anim-assets">Assets Provided?</label>
+                                        <input type="text" id="req-anim-assets" placeholder="e.g., Have vector logos, UI screenshots (Attach above)">
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="req-description">Detailed Description <span class="required">*</span></label>
+                            <textarea id="req-description" rows="5" placeholder="Provide link to assets, target audience, specific requirements, etc..."></textarea>
+                            <div class="helper-text">The more details you provide, the faster the team can deliver exactly what you need.</div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="btn-cancel">Cancel</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toast-message">Request saved successfully!</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

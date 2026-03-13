@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia Request Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container" id="app-content">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-photo-film"></i></div>
+                <h2>Media Request</h2>
+            </div>
+            
+            <div class="sidebar-scroll-content">
+                <ul class="nav-links">
+                    <li class="nav-item active" data-view="dashboard">
+                        <i class="fa-solid fa-chart-pie"></i> Dashboard
+                    </li>
+                    <li class="nav-item" data-view="trash">
+                        <i class="fa-solid fa-trash-can"></i> Trash Bin
+                        <span class="trash-badge" id="trash-count-badge" style="display:none;">0</span>
+                    </li>
+                </ul>
+
+                <!-- Upcoming Deadlines -->
+                <div class="sidebar-section">
+                    <h4 class="sidebar-section-title"><i class="fa-solid fa-calendar-check"></i> Upcoming Deadlines</h4>
+                    <div class="sidebar-deadlines" id="sidebar-deadlines">
+                        <div class="sidebar-empty-hint"><i class="fa-regular fa-calendar"></i> No upcoming deadlines</div>
+                    </div>
+                </div>
+
+                <!-- Quick Action -->
+                <div class="sidebar-section">
+                    <a href="index.html" class="sidebar-action-btn">
+                        <i class="fa-solid fa-plus"></i> Submit New Request
+                    </a>
+                </div>
+
+                <!-- Type Breakdown -->
+                <div class="sidebar-section">
+                    <h4 class="sidebar-section-title"><i class="fa-solid fa-chart-bar"></i> By Type</h4>
+                    <div class="sidebar-stat-list" id="sidebar-type-breakdown">
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#58a6ff;"></span>
+                            <span class="stat-label">Video</span>
+                            <span class="stat-count" id="sidebar-video-count">0</span>
+                        </div>
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#a371f7;"></span>
+                            <span class="stat-label">Graphic</span>
+                            <span class="stat-count" id="sidebar-graphic-count">0</span>
+                        </div>
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#2ea043;"></span>
+                            <span class="stat-label">Photo</span>
+                            <span class="stat-count" id="sidebar-photo-count">0</span>
+                        </div>
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#d29922;"></span>
+                            <span class="stat-label">Animation</span>
+                            <span class="stat-count" id="sidebar-anim-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority Breakdown -->
+                <div class="sidebar-section">
+                    <h4 class="sidebar-section-title"><i class="fa-solid fa-flag"></i> By Priority</h4>
+                    <div class="sidebar-stat-list" id="sidebar-priority-breakdown">
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#f85149;"></span>
+                            <span class="stat-label">High</span>
+                            <span class="stat-count" id="sidebar-high-count">0</span>
+                        </div>
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#d29922;"></span>
+                            <span class="stat-label">Medium</span>
+                            <span class="stat-count" id="sidebar-medium-count">0</span>
+                        </div>
+                        <div class="sidebar-stat-row">
+                            <span class="stat-dot" style="background:#2ea043;"></span>
+                            <span class="stat-label">Low</span>
+                            <span class="stat-count" id="sidebar-low-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-profile">
+                <div class="role-selector-wrapper">
+                    <div class="role-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                    <div class="role-selector-inner">
+                        <span class="role-label">View As</span>
+                        <select id="role-selector" class="role-dropdown">
+                            <option value="Admin">Admin (See All)</option>
+                            <option value="Video">Video</option>
+                            <option value="Graphic">Graphic</option>
+                            <option value="Photo">Photo</option>
+                            <option value="Animation">Animation</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <h1 id="page-title">Dashboard</h1>
+                
+                <div class="header-controls">
+                    <div class="theme-switcher">
+                        <button class="theme-btn" data-theme="light" title="Light Mode"><i class="fa-solid fa-sun"></i></button>
+                        <button class="theme-btn" data-theme="system" title="System Mode"><i class="fa-solid fa-desktop"></i></button>
+                        <button class="theme-btn" data-theme="dark" title="Dark Mode"><i class="fa-solid fa-moon"></i></button>
+                    </div>
+                    <div class="date-display" id="current-date">--</div>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view-section active">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon total"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="metric-info">
+                            <h3>Total Requests</h3>
+                            <p id="metric-total">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon pending"><i class="fa-solid fa-clock"></i></div>
+                        <div class="metric-info">
+                            <h3>Pending</h3>
+                            <p id="metric-pending">0</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon completed"><i class="fa-solid fa-check-circle"></i></div>
+                        <div class="metric-info">
+                            <h3>Completed</h3>
+                            <p id="metric-completed">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-requests-section">
+                    <div class="section-header">
+                        <h2>Recent Requests</h2>
+                        <div class="filter-controls">
+                            <select id="time-filter">
+                                <option value="all">All Time</option>
+                                <option value="week">This Week</option>
+                                <option value="month" selected>This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                            <select id="status-filter">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Request</th>
+                                    <th>Type</th>
+                                    <th>Priority</th>
+                                    <th>Date Submitted</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-list">
+                                <!-- Requests will be populated here via JavaScript -->
+                            </tbody>
+                        </table>
+                        
+                        <div id="empty-state" class="empty-state hidden">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <p>No requests found. Create a new request to get started.</p>
+                        </div>
+                    </div>
+                    <div id="requests-pagination" class="pagination-container"></div>
+                </div>
+            </section>
+
+            <!-- Trash View -->
+            <section id="trash-view" class="view-section">
+                <div class="recent-requests-section">
+                    <div class="section-header">
+                        <h2><i class="fa-solid fa-trash-can" style="margin-right:8px; opacity:0.6;"></i>Trash Bin</h2>
+                        <span style="font-size:0.85rem; color:var(--text-secondary);">Items are auto-deleted after 30 days</span>
+                    </div>
+                    <div class="table-container">
+                        <table class="requests-table">
+                            <thead>
+                                <tr>
+                                    <th>Request</th>
+                                    <th>Type</th>
+                                    <th>Auto-Delete</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trash-list"></tbody>
+                        </table>
+                        <div id="trash-empty-state" class="empty-state">
+                            <i class="fa-regular fa-trash-can" style="font-size:2rem; margin-bottom:12px; opacity:0.4;"></i>
+                            <p>Trash is empty</p>
+                        </div>
+                    </div>
+                    <div id="trash-pagination" class="pagination-container"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Request Details Modal -->
+    <div id="details-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Request Details</h2>
+                <button id="modal-close" class="btn-icon" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Dynamic Content Goes Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toast-message">Request saved successfully!</span>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="confirm-dialog">
+            <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3>Move to Trash?</h3>
+            <p>Are you sure you want to delete <strong id="confirm-item-name"></strong>?<br>You can restore it from the Trash Bin within 30 days.</p>
+            <div class="confirm-actions">
+                <button id="confirm-cancel" class="btn-confirm-cancel">Cancel</button>
+                <button id="confirm-delete" class="btn-confirm-delete"><i class="fa-solid fa-trash"></i> Move to Trash</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
